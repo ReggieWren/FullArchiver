@@ -53,34 +53,34 @@ int checkCorrupt(int numOfArgs, const char * fileArgs[])
             
             unsigned int numofFiles = 0;
             unsigned char sizeofName;
-            /* Open the binary file. */
+            /* Open the file. */
             if ((archFilePtr = fopen(fileArgs[2], "rb")) == NULL) {
                 printf("Could not open file: %s\n", fileArgs[2]);
                 exit(1);
             }
             
-            // Read the total number of files
+            // Get the total number of files
             fread(&numofFiles, sizeof(numofFiles), 1, archFilePtr);
             
-            // Read in the size of the file name
+            // Get the size of the file name
             while(fread(&sizeofName, sizeof(sizeofName), 1, archFilePtr) == 1)
             {
                 
-                // Read in file name
+                // Get file name
                 char fileName[sizeofName];
                 fread(&fileName, sizeof(fileName)+1, 1, archFilePtr);
                 
-                // Read in the size of file content
+                // Get the size of file content
                 unsigned int fileContentSize = 0;
                 
                 fread((void *) &fileContentSize, sizeof(fileContentSize), 1, archFilePtr);
                 
-                // Read in the file content
+                // Get the file content
                 char fileContent[fileContentSize];
                 fread(&fileContent, fileContentSize, 1, archFilePtr);
                 fileContent[fileContentSize] = '\0';
                 
-                // if they match, increase the count
+                // Check match, increase count if matching
                 if((strcmp(fileContent, fileContent)) == 0)
                 {
                     matchCount++;
@@ -88,7 +88,7 @@ int checkCorrupt(int numOfArgs, const char * fileArgs[])
                 
             }
             
-            /* Close the database file. */
+            // Close the archive file
             if (fclose(archFilePtr) == EOF) {
                 printf("Could not close file: %s\n", fileArgs[2]);
             }
@@ -96,7 +96,7 @@ int checkCorrupt(int numOfArgs, const char * fileArgs[])
 		
         free(fileContent);
         
-        //Close the file we are reading from - text
+        //Close the file 
         fclose(filePtr);
         
         i++;

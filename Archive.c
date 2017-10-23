@@ -27,25 +27,25 @@ void Archive(int numOfArgs, const char * fileArgs[])
     FILE  *filePtr;
     
 
-    // Pointer to the binary file
+    // Pointer to the archive file
     FILE *archiveFilePtr = fopen(fileArgs[2], "wb");
 
     
     while (i != numOfArgs) {
         
         
-        /* Open the text file. */
+        /* Open the file. */
         if ((filePtr = fopen(fileArgs[i], "r")) == NULL) {
             printf("Could not open file: %s\n", fileArgs[i]);
             exit(1);
         }
         if (flag == 0)
         {
-        // Write the total number of files (N) - 4 bytes
+        // Write the total number of files 
         fwrite((const void *) &numofFiles, sizeof(numofFiles), 1, archiveFilePtr);
         }
         
-        // Write filename length (l1) - 1 byte for null character
+        // Write filename length - 1 byte for null character
         fileNameLength = strlen(fileArgs[i]);
         
         fwrite(&fileNameLength, sizeof(fileNameLength), 1, archiveFilePtr);
@@ -56,7 +56,7 @@ void Archive(int numOfArgs, const char * fileArgs[])
         
         fwrite((const void *) &fileName, (fileNameLength + 1), 1, archiveFilePtr);
         
-        // Write the file size (s1) - 4 bytes
+        // Write the file size
         unsigned int fsize;
         fsize = getFileSize(&fileArgs[i]);
         
@@ -64,7 +64,7 @@ void Archive(int numOfArgs, const char * fileArgs[])
         
         fwrite((const void *) &fsize, sizeof(fsize), 1, archiveFilePtr);
         
-        // Write the contents of file (c1) - filesize bytes
+        // Write the contents of the non-archive file
         char *fileContent = malloc(fsize + 1);
         fread(fileContent, fsize, 1, filePtr);
         
@@ -73,7 +73,7 @@ void Archive(int numOfArgs, const char * fileArgs[])
         
         free(fileContent);
         
-        //Close the file we are reading from - text
+        //Close the file
         fclose(filePtr);
         
         i++;
@@ -81,7 +81,7 @@ void Archive(int numOfArgs, const char * fileArgs[])
     }
     
     
-    // Close the file we are writing to - binary
+    // Close the archive file
     fclose(archiveFilePtr);
     
 

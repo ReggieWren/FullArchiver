@@ -55,7 +55,7 @@ int checkArchive(int numOfArgs, const char * fileArgs[])
         
         fileSize += tempFileSize;
         
-        /* Close the text file. */
+        /* Close the file. */
         if (fclose(filePtr) == EOF) {
             printf("Could not close file: %s\n", fileArgs[i]);
         }
@@ -79,7 +79,7 @@ int checkArchive(int numOfArgs, const char * fileArgs[])
     // Adding 4 bytes for total number of files
     fileSize += 4;
     
-    
+    //error logging
     if((fileSize - archFileSize) > 0)
     {
         printf("The archive is missing %ld bytes.\n", (fileSize - archFileSize));

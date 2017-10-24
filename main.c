@@ -8,6 +8,12 @@
 
 int main(int argc, const char * argv[]) {
 
+    if(argc < 3)
+	{
+		printf("Please pass in the correct arguments!\n");
+        	exit(1);
+	}
+	
     if((strcmp(argv[1], "-a") == 0) && argc >= 4)
     {
         Archive(argc, argv);

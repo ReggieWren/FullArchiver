@@ -22,11 +22,8 @@ void multiArchive(int numOfArgs, const char * fileArgs[])
     int flag = 0;
     
     unsigned int numofFiles = numOfArgs - 4;
-	printf("Num of files: %d\n", numofFiles);
 	int archSize = atoi(fileArgs[3]);
-	printf("Size of archive %d\n", archSize);
 	unsigned int numofArchs = (unsigned int)ceil((double)(numofFiles/archSize));
-	printf("Num of archives: %d\n", numofArchs);
     unsigned char fileNameLength;
     unsigned int fileSize = 0;
     

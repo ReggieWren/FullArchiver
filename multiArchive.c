@@ -22,10 +22,14 @@ void multiArchive(int numOfArgs, const char * fileArgs[])
     int flag = 0;
     
     unsigned int numofFiles = numOfArgs - 4;
+	printf("Num of files: %d\n", numofFiles);
 	int archSize = atoi(fileArgs[3]);
+	printf("Size of archive %d\n", archSize);
 	unsigned int numofArchs = (unsigned int)ceil((double)(numofFiles/archSize));
+	printf("Num of archives: %d\n", numofArchs);
     unsigned char fileNameLength;
     unsigned int fileSize = 0;
+	unsigned int archiveFileSize = 0;
     
     char fileName[MAX_FILENAME];
     
@@ -39,19 +43,35 @@ void multiArchive(int numOfArgs, const char * fileArgs[])
     
     while (i != numOfArgs) {
         
-        if(j > archSize)
+		archiveFileSize += getFileSize(&fileArgs[i]);
+		printf("args2: %s\n", fileArgs[2]);
+           if(archiveFileSize > archSize)
 		{
-			size_t fileLen = strlen(fileArgs[2]);
+			if(addToArch == '1')
+			{
+				size_t fileLen = strlen(fileArgs[2]);
 
-            char* newFile = malloc(fileLen + 2);
+				char* newFile = malloc(fileLen + 2);
 
-			strcpy(newFile, fileArgs[2]);    
-			newFile[fileLen] = (char)addToArch;
-			newFile[fileLen+1] = '\0';
-			printf("New Archive File: %s", newFile);
+				strcpy(newFile, fileArgs[2]);    
+				newFile[fileLen] = (char)addToArch;
+				newFile[fileLen+1] = '\0';
+			    strcpy((char*)fileArgs[2], newFile);
+			}
+			
+			else
+			{
+				size_t fileLen = strlen(fileArgs[2]);
+				char* newFile = malloc(fileLen + 2);
+				
+				strcpy(newFile, fileArgs[2]);
+				newFile[fileLen-1] = (char)addToArch;
+				newFile[fileLen] = '\0';
+			    strcpy((char*)fileArgs[2], newFile);
+			}
 			addToArch++;
-			archiveFilePtr = fopen(newFile, "wb");
-		}
+			archiveFilePtr = fopen(fileArgs[2], "wb");
+		} 
 		
         /* Open the file. */
         if ((filePtr = fopen(fileArgs[i], "r")) == NULL) {
@@ -98,6 +118,7 @@ void multiArchive(int numOfArgs, const char * fileArgs[])
         i++;
 		j++;
         flag = 1;
+		archiveFileSize += getFileSize(&fileArgs[2]);
     }
     
     

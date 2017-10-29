@@ -1,11 +1,18 @@
 # FullArchiver
 A C Program which has the capability to archive files, unpack an archive file, display data about an archive file, and check the status of an archive file.
 
-Command Line Formats : archiver [-a|-u|-l|-v] archivename [file1 file2 . . . fileN]
+Command Line Formats : archiver [-a|-u|-l|-v] [archiveSize] archivename [file1 file2 . . . fileN]
 
-archiver -a archivename file1 file2 ... fileN
+• archiver -a archivename file1 file2 ... fileN
 Create an archive with the specified 
 name from the specified files. The original files should remain unchanged.The number of files can vary.
+
+• archiver -a archivename archivesize file1 file2 ... fileN: Create an archive with
+the specified name and size from the specified files. The original files should remain unchanged.
+The number of files can vary. If the desired archive size does not suffice for all specified files
+to be stored in a single archive file named archivename, your program should create as many
+archive files as needed with the following naming convention archivename1, archivename2,
+and so on.
 
 • archiver -u archivename  
 “Unpack” the specified archive and generate each file contained
